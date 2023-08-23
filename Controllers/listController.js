@@ -1,19 +1,17 @@
 const List = require('./../Models/listModel.js');
+const catchAsync = require('./../Utils/catchAsync');
+const AppError = require('./../Utils/AppError');
 
-exports.getList = async (req, res) => {
-  try {
-    const list = await List.findById(req.params.id).populate('user');
-    res.status(200).json({
-      status: 'success',
-      list,
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
+exports.getList = catchAsync(async (req, res, next) => {
+  const myList = await List.findById(req.params.id).populate('user');
+  if (myList.user.id !== req.user.id) {
+    return next(new AppError('You do not have access to this list', 401));
   }
-};
+  res.status(200).json({
+    status: 'success',
+    list: myList,
+  });
+});
 
 exports.createList = async (req, res) => {
   try {
