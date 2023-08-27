@@ -8,8 +8,7 @@ const listSchema = new mongoose.Schema({
   tasks: [
     [
       {
-        type: String,
-        unique: true,
+        name: String,
         isDone: {
           type: Boolean,
           default: false,

@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.delete('/delete-me', userController.deleteMe);
+router.get('/overview', authController.protect, userController.myLists);
 router
   .route('/:id')
   .get(userController.getUser)

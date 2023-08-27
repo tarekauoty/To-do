@@ -29,7 +29,6 @@ exports.updateList = async (req, res) => {
   try {
     const updated = await List.findByIdAndUpdate(req.params.id, req.body, {
       runValidators: true,
-      new: true,
     });
     res.status(200).json({
       status: 'success',
