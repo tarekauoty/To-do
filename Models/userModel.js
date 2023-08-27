@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
@@ -36,9 +35,20 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords are not the same!',
     },
   },
+  list: [
+    [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'List',
+        select: false,
+      },
+    ],
+  ],
+
   isActive: {
     type: Boolean,
     default: true,
+    select: false,
   },
 });
 userSchema.pre('save', async function (next) {

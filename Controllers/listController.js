@@ -3,30 +3,27 @@ const catchAsync = require('./../Utils/catchAsync');
 const AppError = require('./../Utils/AppError');
 
 exports.getList = catchAsync(async (req, res, next) => {
-  const myList = await List.findById(req.params.id).populate('user');
+  const myList = await List.findById(req.params.id).populate({
+    path: 'user',
+    select: '_id',
+  });
   if (myList.user.id !== req.user.id) {
     return next(new AppError('You do not have access to this list', 401));
   }
+
   res.status(200).json({
     status: 'success',
     list: myList,
   });
 });
 
-exports.createList = async (req, res) => {
-  try {
-    const newList = await List.create(req.body);
-    res.status(201).json({
-      status: 'success',
-      newList,
-    });
-  } catch (err) {
-    res.status(403).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+exports.createList = catchAsync(async (req, res, next) => {
+  const newList = await List.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    newList,
+  });
+});
 
 exports.updateList = async (req, res) => {
   try {

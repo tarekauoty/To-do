@@ -7,6 +7,9 @@ const router = express.Router();
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.delete('/delete-me', userController.deleteMe);
-router.get('getMe', userController.getMe);
-router.patch('updateMe', userController.updateMe);
+router
+  .route('/:id')
+  .get(userController.getUser)
+  .patch(userController.updateMe)
+  .delete(userController.deleteMe);
 module.exports = router;

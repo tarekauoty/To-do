@@ -6,19 +6,24 @@ const listSchema = new mongoose.Schema({
     required: [true, 'A list must have a name'],
   },
   tasks: [
-    {
-      name: String,
-      isDone: {
-        type: Boolean,
-        default: false,
+    [
+      {
+        type: String,
+        unique: true,
+        isDone: {
+          type: Boolean,
+          default: false,
+        },
       },
-    },
+    ],
   ],
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: [true, 'A list must belong to a user!'],
+    select: false,
   },
 });
+
 const List = mongoose.model('List', listSchema);
 module.exports = List;

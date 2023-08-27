@@ -9,7 +9,6 @@ router
   .get(authController.protect, listController.getList)
   .patch(authController.protect, listController.updateList)
   .delete(authController.protect, listController.deleteList);
-
 router.post('/new-list', authController.protect, listController.createList);
 
 module.exports = router;
